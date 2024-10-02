@@ -3,10 +3,15 @@ import Header from './Header';
 import { checkValidEmail } from '../utils/validate';
 import { checkValidPassword } from '../utils/validate';
 import { checkValidName } from '../utils/validate';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../utils/firebase';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/userSlice';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isSignIn, setIsSignIn] = useState(true);
   const [emailError, setEmailError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
@@ -36,14 +41,19 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up 
           const user = userCredential.user;
-          setError(null)
-          console.log(user)
+          updateProfile(user, {
+            displayName: nameRef.current.value, photoURL: "user.jpg"
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(addUser({ uid, email, displayName, photoURL }))
+              setError(null)
+              navigate('/browse')
+            })
         })
         .catch((error) => {
           const errorCode = error.code;
-          const errorMessage = error.message;
           setError(errorCode)
-          console.log(errorCode + ': ' + errorMessage)
         });
     }
 
@@ -53,13 +63,14 @@ const Login = () => {
         // Signed in 
         const user = userCredential.user;
         setError(null)
-        console.log(user)
+        navigate('/browse')
+        // console.log(user)
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorMessage = error.message;
         setError(errorCode)
-        console.log(errorCode + ': ' + errorMessage)
+        // console.log(errorCode + ': ' + errorMessage)
       });
 
   }
