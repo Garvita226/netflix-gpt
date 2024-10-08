@@ -1,28 +1,44 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { signOut } from "firebase/auth";
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
+import { addUser, removeUser } from '../utils/userSlice';
+import { LOGO } from '../utils/constants';
 
 const Header = () => {
   const user = useSelector((state) => state.user)
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName, photoURL } = user;
+        dispatch(addUser({ uid, email, displayName, photoURL }))
+        navigate('/browse')
+      } else {
+        dispatch(removeUser())
+        navigate('/')
+      }
+    });
+
+    return () => unsubscribe()
+  }, [])
 
   const handleSignOut = () => {
-    signOut(auth).then(() => {
-      navigate('/')
-    }).catch((error) => {
+    signOut(auth).then(() => {}).catch((error) => {
       // An error happened.
     });
   }
 
   return (
-    <div className='absolute bg-gradient-to-b from-black w-screen flex justify-between items-center'>
-      <img className='w-44' src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png" alt="logo" />
+    <div className='absolute bg-gradient-to-b from-black w-screen flex justify-between items-center z-50'>
+      <img className='w-44' src={LOGO} alt="logo" />
 
       {
         user && (<div className='flex'>
-          <img className='w-10 h-10 rounded-full' src={user.photoURL} alt="usericon" />
+          <img className='w-8 h-8' src={user.photoURL} alt="usericon" />
           <button onClick={handleSignOut} className='bg-red-600 text-white font-semibold rounded-md mx-4 px-3 py-1 cursor-pointer'>Sign out</button>
         </div>)
       }

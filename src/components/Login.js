@@ -5,12 +5,11 @@ import { checkValidPassword } from '../utils/validate';
 import { checkValidName } from '../utils/validate';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../utils/firebase';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
+import { USER_ICON } from '../utils/constants';
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignIn, setIsSignIn] = useState(true);
   const [emailError, setEmailError] = useState(null);
@@ -42,13 +41,12 @@ const Login = () => {
           // Signed up 
           const user = userCredential.user;
           updateProfile(user, {
-            displayName: nameRef.current.value, photoURL: "user.jpg"
+            displayName: nameRef.current.value, photoURL: USER_ICON
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(addUser({ uid, email, displayName, photoURL }))
               setError(null)
-              navigate('/browse')
             })
         })
         .catch((error) => {
@@ -61,10 +59,8 @@ const Login = () => {
     signInWithEmailAndPassword(auth, emailRef.current.value, passRef.current.value)
       .then((userCredential) => {
         // Signed in 
-        const user = userCredential.user;
+        // const user = userCredential.user;
         setError(null)
-        navigate('/browse')
-        // console.log(user)
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -119,7 +115,7 @@ const Login = () => {
       {/* Background Image Section */}
       <div className="absolute top-0 left-0 w-full h-full z-20">
         {/* Overlay */}
-        <div className="z-20 absolute top-0 left-0 w-full h-full bg-black bg-opacity-55"></div>
+        <div className="z-20 absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
         <img
           className="w-full h-full object-cover"
           src="https://assets.nflxext.com/ffe/siteui/vlv3/bfc0fc46-24f6-4d70-85b3-7799315c01dd/web/IN-en-20240923-TRIFECTA-perspective_74e21c19-980e-45ef-bd6c-78c1a6ce9381_large.jpg"
