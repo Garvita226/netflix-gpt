@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*{
+    box-sizing: border-box;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
+  
