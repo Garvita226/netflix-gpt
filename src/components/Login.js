@@ -7,7 +7,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import { auth } from '../utils/firebase';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
-import { USER_ICON } from '../utils/constants';
+import { BG_URL, USER_ICON } from '../utils/constants';
+import Background from './Background';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -113,15 +114,7 @@ const Login = () => {
       </div>
 
       {/* Background Image Section */}
-      <div className="absolute top-0 left-0 w-full h-full z-20">
-        {/* Overlay */}
-        <div className="z-20 absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
-        <img
-          className="w-full h-full object-cover"
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/bfc0fc46-24f6-4d70-85b3-7799315c01dd/web/IN-en-20240923-TRIFECTA-perspective_74e21c19-980e-45ef-bd6c-78c1a6ce9381_large.jpg"
-          alt=""
-        />
-      </div>
+      <Background />
 
     </div>
   );
