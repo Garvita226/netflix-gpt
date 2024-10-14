@@ -1,10 +1,10 @@
 import React from 'react'
 import { IMG_CDN_URL } from '../utils/constants'
 
-const MovieCard = ({title, poster_path}) => {
+const MovieCard = ({ poster_path}) => {
   return (
-    <div className='w-48 pr-3'>
-      <img src={IMG_CDN_URL + poster_path} alt="movie poster" />
+    poster_path && <div className='w-48 pr-3'>
+      <img className='h-60' src={IMG_CDN_URL + poster_path} alt="movie poster" />
     </div>
   )
 }

@@ -21,3 +21,5 @@ export const SUPPORTED_LANGUAGES = [
   {identifier: 'french', name: 'French'},
   {identifier: 'german', name: 'German'},
 ]
+
+export const OPENAI_KEY = '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'
