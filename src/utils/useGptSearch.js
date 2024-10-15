@@ -28,7 +28,6 @@ export const useGptSearch = (gptSearchText) => {
         const gptSearchResults = gptResults[key];
         const promiseArray = gptSearchResults.map(movie => searchMovies(movie));
         const tmdbResults = await Promise.all(promiseArray)
-        console.log(tmdbResults)
         dispatch(addGptMovieResults({ movieNames: gptResults[key], movieResults: tmdbResults }))
         break;
       }
