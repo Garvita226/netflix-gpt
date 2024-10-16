@@ -7,8 +7,9 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import { auth } from '../utils/firebase';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
-import { BG_URL, USER_ICON } from '../utils/constants';
+import { USER_ICON } from '../utils/constants';
 import Background from './Background';
+import { toggleGptSearchView } from '../utils/gptSlice';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -85,11 +86,11 @@ const Login = () => {
 
       {/* Form section */}
       <div className='z-50 absolute inset-0 flex justify-center items-center'>
-        <div className='w-4/12 bg-black bg-opacity-55 p-16 text-white rounded-sm'>
+        <div className='w-10/12 md:w-4/12 bg-black bg-opacity-55 p-8 md:p-16 text-white rounded-sm'>
 
           <form onSubmit={(e) => e.preventDefault()} action="" className='flex flex-col'>
 
-            <h1 className='font-bold text-3xl pb-3'>{isSignIn ? "Sign in" : "Sign up"}</h1>
+            <h1 className='font-bold text-2xl md:text-3xl pb-3'>{isSignIn ? "Sign in" : "Sign up"}</h1>
 
             {!isSignIn && <div className='w-full'>
               <input type="text" ref={nameRef} placeholder='Full Name' className='w-full p-3 my-3 rounded-sm bg-gray-950 bg-opacity-55 border border-gray-600' />

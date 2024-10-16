@@ -33,6 +33,7 @@ const Header = () => {
     signOut(auth).then(() => {}).catch((error) => {
       // An error happened.
     });
+    dispatch(toggleGptSearchView())
   }
 
   const handleToggleGptSearch = () => {
@@ -45,20 +46,20 @@ const Header = () => {
   }
 
   return (
-    <div className='absolute bg-gradient-to-b from-black w-screen flex justify-between items-center z-50'>
+    <div className='absolute bg-gradient-to-b from-black w-screen flex flex-col md:flex-row md:justify-between items-center z-50'>
       <img className='w-44' src={LOGO} alt="logo" />
 
       {
-        user && (<div className='flex'>
+        user && (<div className='w-full md:w-auto flex justify-between'>
           {showGptSearch && (
-            <select className='mx-2 px-4 py-2 bg-gray-700 text-white font-semibold bg-opacity-70 rounded-lg cursor-pointer' onChange={handleLanguageChange}>
+            <select className='mx-2 px-2 md:px-4 py-1 md:py-2 bg-gray-700 text-white font-semibold bg-opacity-70 rounded-lg cursor-pointer' onChange={handleLanguageChange}>
               {SUPPORTED_LANGUAGES.map(lang => {
                 return <option key={lang.identifier} value={lang.identifier}>{lang.name}</option>
               })}
             </select>
           )}
-          <button onClick={handleToggleGptSearch} className='mx-4 py-2 px-4 bg-purple-800 text-white rounded-lg font-semibold'>{showGptSearch ? 'Homepage' : 'GPT Search'}</button>
-          <img className='w-8 h-8' src={user.photoURL} alt="usericon" />
+          <button onClick={handleToggleGptSearch} className='mx-4 py-1 md:py-2 px-2 md:px-4 bg-purple-800 text-white rounded-lg font-semibold'>{showGptSearch ? 'Homepage' : 'GPT Search'}</button>
+          <img className='w-8 h-8 hidden md:inline' src={user.photoURL} alt="usericon" />
           <button onClick={handleSignOut} className='bg-red-600 text-white font-semibold rounded-md mx-4 px-3 py-1 cursor-pointer'>Sign out</button>
         </div>)
       }
