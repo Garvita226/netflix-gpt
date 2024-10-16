@@ -33,7 +33,8 @@ const Header = () => {
     signOut(auth).then(() => {}).catch((error) => {
       // An error happened.
     });
-    dispatch(toggleGptSearchView())
+    if(showGptSearch)
+      dispatch(toggleGptSearchView())
   }
 
   const handleToggleGptSearch = () => {
